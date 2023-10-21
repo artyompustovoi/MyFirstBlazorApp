@@ -1,0 +1,17 @@
+﻿@page "/products"
+@inject ICatalog catalog
+<h1>Каталог</h1>
+@foreach (var product in products_)
+{
+    <p>Id: @product.Key: Name: @product.Value.Name Price:@product.Value.Price</p>
+}
+
+@code {
+    ConcurrentDictionary<Guid, Product> products_ = new ConcurrentDictionary<Guid, Product>();
+    private IReadOnlyList<Category> categories;
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        products_ = catalog.GetProducts();
+    }
+}
